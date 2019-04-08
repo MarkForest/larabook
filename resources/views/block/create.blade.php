@@ -6,6 +6,11 @@
     <div class="label lable-info">
         {{$page}}
     </div>
+    @if (session('message'))
+        <div class="alert alert-success">
+            {{session('message')}}
+        </div>
+    @endif
     {!! Form::model($block, ['action'=>'BlockController@store', 'files'=>true, 'class'=>'form']) !!}
     <div class="form-group">
         {!! Form::label('topicid', 'Select Topic') !!}

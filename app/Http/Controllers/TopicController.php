@@ -2,19 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Block;
 use App\Topic;
 use Illuminate\Http\Request;
 
 class TopicController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     *
+        Показать список ресурсов.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        //
+        $topics = Topic::all(); // select * from topics
+        $id = 0;
+        return view('topic.index', [
+            'page' => 'Home',
+            'topics'=>$topics,
+            'id'=>$id,
+        ]);
     }
 
     /**
@@ -39,19 +47,25 @@ class TopicController extends Controller
         $topic = new Topic;
         $topic->topicname = $request->topicname;
         $topic->save();
-        return redirect()->action('TopicController@create');
-
+        return redirect()->action('BlockController@create');
     }
 
     /**
-     * Display the specified resource.
+     * Показать указанный ресурс.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        $blocks = Block::where('topicid', '=', $id)->get();
+        $topics = Topic::all();
+        return view('topic.index', [
+            'page'=>'Home',
+            'topics' => $topics,
+            'blocks' => $blocks,
+            'id' => $id,
+        ]);
     }
 
     /**

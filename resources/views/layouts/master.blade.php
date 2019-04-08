@@ -8,8 +8,8 @@
     <title>Larabook</title>
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
-    <script type="text/javascript" src="{{'js/bootstrap.min.js'}}"></script>
-    <script type="text/javascript" src="{{'js/jquery-3.3.1.min.js'}}"></script>
+    <script type="text/javascript" src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
+    <script type="text/javascript" src="{{asset('js/bootstrap.min.js')}}"></script>
 </head>
 <body>
 {{-- @section - открывает именованную секцию--}}
@@ -18,11 +18,11 @@
 @section('menu')
     <div class="main-menu col-md-12">
         <ul class="nav nav-pills nav-justified">
-            <li role="presentation" {{$page == 'Main Page' ? 'class=active': ''}}>
-                <a href="{{url('index')}}">Main Page</a>
+            <li role="presentation" {{$page == 'Home' ? 'class=active': ''}}>
+                <a href="{{url('topic')}}">Main Page</a>
             </li>
             <li role="presentation" {{$page == 'Forms' ? 'class=active': ''}}>
-                <a href="{{url('create')}}">Content Control</a>
+                <a href="{{url('block/create')}}">Content Control</a>
             </li>
         </ul>
     </div>

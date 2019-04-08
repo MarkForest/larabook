@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('home/contact', function (){
+   return  view('HomeController@contact');
+});
+
 Route::resource('topic', 'TopicController');
 Route::resource('block', 'BlockController');
 //   /topic            index    topic.index

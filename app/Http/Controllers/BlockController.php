@@ -30,19 +30,32 @@ class BlockController extends Controller
         return view('block.create', [
            'block'=>$block,
            'topics'=>$topics,
-           'page'=>'Add Block',
+           'page'=>'Forms',
         ]);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Сохраните вновь созданный ресурс в хранилище.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        $block = new Block();
+        $fname = $request->file('imagepath');
+        if ($fname != null) {
+            $originalname = $request->file('imagepath')->getClientOriginalName();
+            $request->file('imagepath')->move(public_path().'/images', $originalname);
+            $block->imagepath = '/images/'.$originalname;
+        } else {
+            $block->imagepath = '';
+        }
+        $block->title = $request->title;
+        $block->topicid = $request->topicid;
+        $block->content = $request->content;
+        $block->save();
+        return redirect()->action('BlockController@create')->with('message', 'New block has been added!');
     }
 
     /**
