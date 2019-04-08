@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Block;
 use App\Topic;
 use Illuminate\Http\Request;
 
-class TopicController extends Controller
+class BlockController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -24,23 +25,24 @@ class TopicController extends Controller
      */
     public function create()
     {
-        $topic = new Topic();
-        return view('topic.create', ['topic'=>$topic, 'page'=>'Add Topic']);
+        $block = new Block();
+        $topics = Topic::pluck('topicname', 'id');
+        return view('block.create', [
+           'block'=>$block,
+           'topics'=>$topics,
+           'page'=>'Add Block',
+        ]);
     }
 
     /**
-     * Сохраните вновь созданный ресурс в хранилище
+     * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $topic = new Topic;
-        $topic->topicname = $request->topicname;
-        $topic->save();
-        return redirect()->action('TopicController@create');
-
+        //
     }
 
     /**
