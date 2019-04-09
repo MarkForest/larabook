@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Block;
 use App\Topic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Translation\Tests\Catalogue\TargetOperationTest;
 
 class BlockController extends Controller
 {
@@ -25,6 +27,9 @@ class BlockController extends Controller
      */
     public function create()
     {
+        if (!Auth::check()) {
+            return redirect('login');
+        }
         $block = new Block();
         $topics = Topic::pluck('topicname', 'id');
         return view('block.create', [
@@ -77,7 +82,15 @@ class BlockController extends Controller
      */
     public function edit($id)
     {
-        //
+        $block = Block::find($id);
+        $topics = Topic::pluck('topicname', 'id');
+        return view('block.edit', [
+            'topics' => $topics,
+            'block' => $block,
+            'page' => 'Home',
+        ]);
+
+
     }
 
     /**
@@ -89,7 +102,20 @@ class BlockController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $block = Block::find($id);
+        $block->title = $request->title;
+        $block->content = $request->content;
+        $block->topicid = $request->topicid;
+        $fname = $request->file('imagepath');
+        if ($fname != null) {
+            $originalname = $request->file('imagepath')->getClientOriginalName();
+            $request->file('imagepath')->move(public_path().'/images', $originalname);
+            $block->imagepath = '/images/'.$originalname;
+        } else {
+            $block->imagepath = '';
+        }
+        $block->save();
+        return redirect('topic/'.$block->topicid);
     }
 
     /**
@@ -100,6 +126,8 @@ class BlockController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $block = Block::find($id);
+        $block->delete();
+        return redirect('topic');
     }
 }

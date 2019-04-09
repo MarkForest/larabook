@@ -28,3 +28,6 @@ Route::resource('block', 'BlockController');
 //   /topic     index    topic.index
 //   /topic     index    topic.index
 //   /topic     index    topic.index
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

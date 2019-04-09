@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.app')
 @section('menu')
     @parent
 @endsection
@@ -18,7 +18,7 @@
         <div class="col-md-7 col-md-offset-1">
             @if ($id != 0)
                 @foreach($blocks as $block)
-                    <div class="panel panel-success">
+                    <div class="panel panel-primary">
                         <div class="panel-heading"><h3>{{$block->title}}</h3></div>
                         <div class="panel-body">
                             @if ( $block->imagepath != '')
@@ -33,7 +33,22 @@
                                 </div>
                             </p>
                         </div>
-                        <div class="panel-footer"></div>
+                        <div class="panel-footer clearfix">
+                            <div class="pull-right">
+                                {!! Form::open(['route' => ['block.destroy', $block->id]]) !!}
+                                {{-- Установить скрыто метод DELETE для этой формы --}}
+                                {!! Form::hidden('_method', 'DELETE') !!}
+                                <button class="btn btn-danger" type="submit">DELETE</button>
+                                {!! Form::close() !!}
+                            </div>
+                            <div class="pull-right">
+                                {!! Form::model($block, ['route' => ['block.edit', $block->id]]) !!}
+                                {!! Form::hidden('_method', 'GET') !!}
+                                <button class="btn btn-info" type="submit">EDIT</button>
+                                {!! Form::close() !!}
+                            </div>
+                        </div>
+
                     </div>
                 @endforeach
             @endif
